@@ -8,7 +8,7 @@ public class BulletEnemyHit : MonoBehaviour
     {
         if (collision.tag == "Bullet")
         {
-            Destroy(transform.parent.gameObject);
+            Destroy(transform.parent.parent.gameObject);
         }
     }
 }
