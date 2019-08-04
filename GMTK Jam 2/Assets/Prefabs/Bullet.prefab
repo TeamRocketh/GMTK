@@ -131,3 +131,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  bulletHitPS: {fileID: 5419133909339117920, guid: b48122f96c1e67c419949009c32341fe,
+    type: 3}

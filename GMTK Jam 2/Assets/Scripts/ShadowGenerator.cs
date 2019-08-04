@@ -22,8 +22,9 @@ public class ShadowGenerator : MonoBehaviour
                 timer -= Time.deltaTime;
             else
             {
-                Instantiate(shadow, transform.position, transform.rotation);
+                GameObject temp = Instantiate(shadow, transform.position, transform.rotation);
                 timer = ShadowDelay;
+                Destroy(temp, 0.5f);
             }
         }
     }

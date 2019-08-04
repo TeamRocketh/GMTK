@@ -5,8 +5,11 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed =10f;
+    public GameObject bulletHitPS;
     bool isSlow = false;
+    Vector2 lastFrameVel;
     Rigidbody2D rb;
+
     public void AddMovement(Vector2 position)
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,6 +26,20 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (collision.gameObject.tag == "Bounce")
+        {
+            Instantiate(bulletHitPS, transform.position, Quaternion.Euler(0, 0, 90 + Vector3.SignedAngle(Vector3.right, lastFrameVel, Vector3.forward)));
+            Camera.main.GetComponent<Animator>().SetBool("CamShake", true);
+            StartCoroutine(Delay());
+        }
+    }
+
+    IEnumerator Delay()
+    { yield return new WaitForSeconds(0.25f); Camera.main.GetComponent<Animator>().SetBool("CamShake", false); }
+
+    private void LateUpdate()
+    {
+        lastFrameVel = rb.velocity;
     }
 
     private void Update()
