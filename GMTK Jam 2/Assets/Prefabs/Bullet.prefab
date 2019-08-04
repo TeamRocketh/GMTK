@@ -130,6 +130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f90994b782b9b9489e96de9e7e71975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 10
   bulletHitPS: {fileID: 5419133909339117920, guid: b48122f96c1e67c419949009c32341fe,
     type: 3}

@@ -23,5 +23,8 @@ public class Shoot : MonoBehaviour
             Vector3 spawnPos = transform.position + ((Vector3)mouseClickPos - transform.position).normalized*offset;
             Instantiate(bullet, spawnPos, Quaternion.identity).GetComponent<Bullet>().AddMovement(mouseClickPos);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+            canShoot = true;
     }
 }
