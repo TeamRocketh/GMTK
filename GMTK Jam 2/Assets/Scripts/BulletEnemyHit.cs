@@ -9,6 +9,8 @@ public class BulletEnemyHit : MonoBehaviour
         if (collision.tag == "Bullet")
         {
             Destroy(transform.parent.parent.gameObject);
+            FindObjectOfType<Sound>().PlayEnemy();
+            GameManager.instance.killedEnemies++;
         }
     }
 }

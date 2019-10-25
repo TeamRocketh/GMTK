@@ -19,12 +19,12 @@ public class Shoot : MonoBehaviour
         if(Input.GetMouseButtonDown(0) && canShoot)
         {
             canShoot = false;
+            FindObjectOfType<Sound>().PlayShoot();
             Vector2 mouseClickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 spawnPos = transform.position + ((Vector3)mouseClickPos - transform.position).normalized*offset;
-            Instantiate(bullet, spawnPos, Quaternion.identity).GetComponent<Bullet>().AddMovement(mouseClickPos);
+            GameObject temp = Instantiate(bullet, spawnPos, Quaternion.identity);
+            temp.GetComponent<Bullet>().AddMovement(mouseClickPos);
+            GameManager.instance.lastBullet = temp;
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
-            canShoot = true;
     }
 }
