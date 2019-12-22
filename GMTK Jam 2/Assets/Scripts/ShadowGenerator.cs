@@ -9,14 +9,25 @@ public class ShadowGenerator : MonoBehaviour
 
     float timer;
 
-    private void Start()
+#if !VERSION1
+    PlayerController player;
+#endif
+
+    private void Awake()
     {
         timer = ShadowDelay;
+        player = GetComponent<PlayerController>();
     }
 
     private void Update()
     {
+#if VERSION1
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+#else
+        if (player == null)
+            return;
+        if (player.isMoving)
+#endif
         {
             if (timer > 0)
                 timer -= Time.deltaTime;

@@ -39,14 +39,19 @@ public class GameManager : MonoBehaviour
 
         if (Time.timeSinceLevelLoad < 0.1f)
         {
+#if !VERSION1
+            if (!FindObjectOfType<PlayerController>())
+#else
             if (!FindObjectOfType<Player>())
+#endif
             {
                 Player = Instantiate(player, PlayerPositionReturn(currentLevel), Quaternion.identity);
             }
             killedEnemies = 0;
             Camera.main.transform.parent.position = new Vector3(20 * (currentLevel - 1), 0, 0);
             Player.transform.position = PlayerPositionReturn(currentLevel);
-            Player.GetComponent<Shoot>().canShoot = true;
+            if (Player.GetComponent<Shoot>() != null)
+                Player.GetComponent<Shoot>().canShoot = true;
         }
 
         if (killedEnemies >= currentEnemies)
@@ -58,7 +63,8 @@ public class GameManager : MonoBehaviour
             Camera.main.transform.parent.position += new Vector3(20, 0, 0);
             if (currentLevel <= 5)
                 Player.transform.position = PlayerPositionReturn(currentLevel);
-            Player.GetComponent<Shoot>().canShoot = true;
+            if (Player.GetComponent<Shoot>() != null)
+                Player.GetComponent<Shoot>().canShoot = true;
         }
 
         if (currentLevel > 5)
