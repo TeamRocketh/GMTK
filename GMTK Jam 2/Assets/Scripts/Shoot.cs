@@ -5,26 +5,30 @@ using UnityEngine;
 public class Shoot : MonoBehaviour
 {
     public GameObject bullet;
-    public bool canShoot = true;
-    public float offset = 0.5f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [HideInInspector] public bool canShoot = true;
 
-    // Update is called once per frame
-    void Update()
+    float offset = 0.5f;
+
+    public void ShootBullet()
     {
-        if(Input.GetMouseButtonDown(0) && canShoot)
+        if (canShoot)
         {
             canShoot = false;
             FindObjectOfType<Sound>().PlayShoot();
             Vector2 mouseClickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 spawnPos = transform.position + ((Vector3)mouseClickPos - transform.position).normalized*offset;
+            Vector3 spawnPos = transform.position + ((Vector3)mouseClickPos - transform.position).normalized * offset;
+            spawnPos = transform.position - (Vector3)TouchInput.pullVector * offset;
             GameObject temp = Instantiate(bullet, spawnPos, Quaternion.identity);
-            temp.GetComponent<Bullet>().AddMovement(mouseClickPos);
+            //temp.GetComponent<Bullet>().AddMovement(mouseClickPos);
             GameManager.instance.lastBullet = temp;
+            StartCoroutine(Reload());
         }
+    }
+
+    IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(GameManager.instance.lastBullet);
+        canShoot = true;
     }
 }

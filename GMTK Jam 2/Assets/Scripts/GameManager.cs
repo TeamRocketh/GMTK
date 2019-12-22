@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public Vector3[] positions;
 
+#if !VERSION1
+    public PlayerController playerController;
+#endif
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -29,6 +33,9 @@ public class GameManager : MonoBehaviour
         currentEnemies = EnemyCount(currentLevel);
 
         Player = Instantiate(player, PlayerPositionReturn(currentLevel), Quaternion.identity);
+#if !VERSION1
+        playerController = Player.GetComponent<PlayerController>();
+#endif
     }
 
     private void Update()
@@ -46,6 +53,9 @@ public class GameManager : MonoBehaviour
 #endif
             {
                 Player = Instantiate(player, PlayerPositionReturn(currentLevel), Quaternion.identity);
+#if !VERSION1
+                playerController = Player.GetComponent<PlayerController>();
+#endif
             }
             killedEnemies = 0;
             Camera.main.transform.parent.position = new Vector3(20 * (currentLevel - 1), 0, 0);

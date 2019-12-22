@@ -12,6 +12,15 @@ public class Bullet : MonoBehaviour
     Vector2 lastFrameVel;
     Rigidbody2D rb;
 
+#if !VERSION1
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        rb.velocity = TouchInput.pullVector * speed;
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameManager.instance.playerController.GetComponent<Collider2D>());
+    }
+#endif
+
     public void AddMovement(Vector2 position)
     {
         rb = GetComponent<Rigidbody2D>();
@@ -48,13 +57,13 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        if((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && !isSlow)
+        if (GameManager.instance.playerController != null && GameManager.instance.playerController.isMoving && !isSlow)
         {
             speed /= 2f;
             rb.velocity = rb.velocity.normalized * speed;
             isSlow = true;
         }
-        else if(!(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && isSlow)
+        else if(GameManager.instance.playerController != null && !GameManager.instance.playerController.isMoving && isSlow)
         {
             speed *= 2f;
             rb.velocity = rb.velocity.normalized * speed;

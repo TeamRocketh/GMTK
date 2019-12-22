@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        if (GameManager.instance.playerController != null && GameManager.instance.playerController.isMoving)
         {
             rb.velocity = (currentObject.transform.position - rb.transform.position).normalized * speed;
             if (rb.transform.position.x > currentObject.transform.position.x - offsetValue && rb.transform.position.x < currentObject.transform.position.x + offsetValue &&
